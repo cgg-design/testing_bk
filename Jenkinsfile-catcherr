@@ -4,6 +4,7 @@ pipeline {
     stage('Smoke') {
       steps {
               bat '''
+              pip install pytest
               cd Py_Fixtures
               python -m pytest -v test_smoke01.py
               cd ..\\
