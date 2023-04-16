@@ -3,14 +3,24 @@ pipeline {
   stages {
     stage('Hello') {
       steps {
-        catchError(message:'news',buildResult:'UNSTABLE',stageResult:'UNSTABLE') {
+              bat '''
+              cd Py_Fixtures
+              python -m pytest -v test_smoke01.py
+              cd ..\\
+              '''
+        catchError(message:'news',buildResult:'UNSTABLE',stageResult:'UNSTABLE') 
+        {
           sh 'exit 1'
         }
       }
     }
     stage('stage2') {
       steps {
-        sh "echo stage2"
+              bat '''
+              cd Py_Fixtures
+              python -m pytest -v test_module01.py
+              cd ..\\
+              '''
       }
     }
   }
