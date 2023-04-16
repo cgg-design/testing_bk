@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Hello') {
+    stage('Smoke') {
       steps {
               bat '''
               cd Py_Fixtures
@@ -14,7 +14,7 @@ pipeline {
         }
       }
     }
-    stage('stage2') {
+    stage('Build') {
       steps {
               bat '''
               cd Py_Fixtures
