@@ -18,7 +18,7 @@ pipeline {
             parallel {
                 stage('Building') {
                     steps {                        
-                        sh "doSmoke() tee output.log"
+                        sh "doSmoke() > output.log"
 
                         sh '! grep "FAILURE" output.log'
                         
