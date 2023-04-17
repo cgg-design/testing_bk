@@ -7,38 +7,30 @@ def doSmoke(){
     '''
 }
 
+def directory = "${env.WORKSPACE}/testing_bk"
+
 pipeline {
     agent any
     environment {
         BUILD_COMPLETE = false
     }
     stages {
-        stage('Smoke') {
-            failFast true
-            parallel {
-                stage('Building') {
-                    steps {                        
-                        sh "doSmoke() > output.log"
+      stage('Smoke') {
+         steps{doSmoke()}
+        script {
+          def logContent = Jenkins.getInstance().getItemByFullName(env.JOB_NAME).getBuildByNumber(
+            Integer.parseInt(env.BUILD_NUMBER)).logFile.text
+            // copy the log in the job's own workspace
+           writeFile file: directory + "/buildConsolelog.txt",text: logContent
 
-                        sh '! grep "FAILURE" output.log'
-                        
-
-                        script {
-                            BUILD_COMPLETE = true
-                        }
-                    }
-                }
-                stage('Monitoring the logs') {
-                    steps {
-                        script {
-                            while (BUILD_COMPLETE != true) {
-                                sh '! grep "FAILURE" output.log'
-                            }
-                        }
-                    }
-                }
-            }
         }
+        def consoleOutput = readFile directory + '/buildConsolelog.txt'
+        echo 'Console output saved in the buildConsolelog file'
+        echo '--------------------------------------'
+        echo consoleOutput
+        echo '--------------------------------------'
+
+      }
         stage('Build') {
             steps {
                     bat '''
