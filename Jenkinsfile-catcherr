@@ -17,13 +17,11 @@ pipeline {
             failFast true
             parallel {
                 stage('Building') {
-                    steps {
+                    steps {                        
+                        sh "doSmoke()  |  tee output.log"
 
+                        sh '! grep "FAILURE" output.log'
                         
-                        sh "mvn clean install  |  tee output.log"
-
-                        sh '! grep "WARNING" output.log'
-                        doSmoke()
 
                         script {
                             BUILD_COMPLETE = true
@@ -34,7 +32,7 @@ pipeline {
                     steps {
                         script {
                             while (BUILD_COMPLETE != true) {
-                                sh '! grep "WARNING" output.log'
+                                sh '! grep "FAILURE" output.log'
                             }
                         }
                     }
