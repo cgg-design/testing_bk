@@ -6,13 +6,9 @@ pipeline {
               bat '''
               pip install pytest
               cd Py_Fixtures
-              python -m pytest -v test_smoke01.py
+              python -m pytest -v -x test_smoke01.py
               cd ..\\
               '''
-        catchError(message:'Fail build smoke testing',buildResult:'FAILURE',stageResult:'UNSTABLE') 
-        {
-          sh 'exit 1'
-        }
       }
     }
     stage('Build') {
