@@ -1,31 +1,54 @@
-pipeline {
-  agent any
-  stages {
+def doSmoke(){
+      bat '''
+    pip install pytest
+    cd Py_Fixtures
+    python -m pytest -v -x test_smoke01.py
+    cd ..\\
+    '''
+}
 
-    stage('Smoke') {
-        steps {
-          script {
-            try {
-                bat '''
-                pip install pytest
-                cd Py_Fixtures
-                python -m pytest -v -x test_smoke01.py
-                cd ..\\
-                '''
-            } catch (Exception e) {
-                echo "Stage failed, but we continue"  
+pipeline {
+    agent any
+    environment {
+        BUILD_COMPLETE = false
+    }
+    stages {
+        stage('Smoke') {
+            failFast true
+            parallel {
+                stage('Building') {
+                    steps {
+
+                        
+                        sh "mvn clean install  |  tee output.log"
+
+                        sh '! grep "WARNING" output.log'
+                        doSmoke()
+
+                        script {
+                            BUILD_COMPLETE = true
+                        }
+                    }
+                }
+                stage('Monitoring the logs') {
+                    steps {
+                        script {
+                            while (BUILD_COMPLETE != true) {
+                                sh '! grep "WARNING" output.log'
+                            }
+                        }
+                    }
+                }
             }
-          }
+        }
+        stage('Build') {
+            steps {
+                    bat '''
+                    cd Py_Fixtures
+                    python -m pytest -v test_module01.py
+                    cd ..\\
+                    '''
+            }
         }
     }
-    stage('Build') {
-      steps {
-              bat '''
-              cd Py_Fixtures
-              python -m pytest -v test_module01.py
-              cd ..\\
-              '''
-      }
-    }
-  }
 }
