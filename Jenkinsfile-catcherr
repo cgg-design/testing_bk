@@ -9,7 +9,7 @@ pipeline {
               python -m pytest -v test_smoke01.py
               cd ..\\
               '''
-       catchError(message:'Fail build smoke testing',buildResult:'UNSTABLE',stageResult:'UNSTABLE') 
+        catchError(message:'Fail build smoke testing',buildResult:'FAILURE',stageResult:'UNSTABLE') 
         {
           sh 'exit 1'
         }
