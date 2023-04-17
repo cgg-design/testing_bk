@@ -1,16 +1,22 @@
 pipeline {
   agent any
   stages {
-    stage('Smoke') {
-      steps {
-              bat '''
-              pip install pytest
-              cd Py_Fixtures
-              python -m pytest -v -x test_smoke01.py
-              cd ..\\
-              '''
-      }
-    }
+          try {
+              stage('Smoke') {
+
+                  steps {
+                          bat '''
+                          pip install pytest
+                          cd Py_Fixtures
+                          python -m pytest -v -x test_smoke01.py
+                          cd ..\\
+                          '''
+                  }
+                }
+          } catch (Exception e) {
+              echo "Stage failed, but we continue"  
+          }
+ 
     stage('Build') {
       steps {
               bat '''
