@@ -43,7 +43,7 @@ pipeline {
             steps {
                     bat '''
                     pytest --junitxml test-results.xml 
-                    "C:\Users\Guetsop\Workspace_Photon\PytonTutorial\Kunbus_testing\Report"
+                    "C:\\Users\\Guetsop\\Workspace_Photon\\PytonTutorial\\Kunbus_testing\\Report"
                     '''
             }
         }
