@@ -14,8 +14,7 @@ pipeline {
     agent any
     stages {
       stage('Smoke_test') {
-         steps{
-          
+         steps{          
           doSmoke()
           
           //   script {
