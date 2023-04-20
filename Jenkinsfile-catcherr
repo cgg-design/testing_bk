@@ -15,6 +15,7 @@ pipeline {
     stages {
       stage('Smoke1') {
          steps{
+          
           doSmoke()
           
           //   script {
