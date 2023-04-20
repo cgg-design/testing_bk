@@ -12,11 +12,8 @@ def directory = "${env.WORKSPACE}/testing_bk"
 
 pipeline {
     agent any
-    environment {
-        BUILD_COMPLETE = false
-    }
     stages {
-      stage('Smoke') {
+      stage('Smoke1') {
          steps{
           doSmoke()
           
