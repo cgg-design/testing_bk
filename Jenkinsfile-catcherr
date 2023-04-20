@@ -34,8 +34,7 @@ pipeline {
             steps {
                     bat '''
                     cd Py_Fixtures
-                    python -m pytest -v test_module01.py
-                    cd ..\\
+                    python -m pytest -v -x test_module01.py
                     '''
             }
         }
