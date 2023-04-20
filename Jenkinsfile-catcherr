@@ -1,19 +1,21 @@
 def doSmoke(){
-      bat '''
-    pip install pytest
+    bat '''
     cd Py_Fixtures
     python -m pytest -v -x test_smoke01.py
     cd ..\\
     '''
 }
 
+tools{
+   pip install pytest
+}
 
 def directory = "${env.WORKSPACE}/testing_bk"
 
 pipeline {
     agent any
     stages {
-      stage('Smoke1') {
+      stage('Smoke_test') {
          steps{
           
           doSmoke()
@@ -28,9 +30,6 @@ pipeline {
 
         // def consoleOutput = readFile directory + '/buildConsolelog.txt'
         // echo 'Console output saved in the buildConsolelog file'
-        // echo '--------------------------------------'
-        // echo consoleOutput
-        // echo '--------------------------------------'
 
        }
        
