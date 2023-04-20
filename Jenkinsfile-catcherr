@@ -3,6 +3,7 @@ def doSmoke(){
     pip install pytest
     cd Py_Fixtures
     python -m pytest -v -x test_smoke01.py
+    python -m pytest -v -x test_module01.py
     cd ..\\
     '''
 }
@@ -33,8 +34,8 @@ pipeline {
         stage('Build') {
             steps {
                     bat '''
-                    cd Py_Fixtures
-                    python -m pytest -v -x test_module01.py
+                    cd Py_assertion
+                    python -m pytest -v -x test_logic.py
                     '''
             }
         }
