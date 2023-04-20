@@ -40,10 +40,10 @@ pipeline {
             }
         }
         stage('Test_Report') {
+          // "C:\\Users\\Guetsop\\Workspace_Photon\\PytonTutorial\\Kunbus_testing\\Report"
             steps {
                     bat '''
                     pytest --junitxml test-results.xml 
-                    // "C:\\Users\\Guetsop\\Workspace_Photon\\PytonTutorial\\Kunbus_testing\\Report"
                     '''
             }
         }
